@@ -1,14 +1,8 @@
-import './App.css';
-import './index.css';
-import EmployeeForm from "./components/EmployeeForm";
+import React from "react";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-  return (
-   
-    <div className="min-h-screen bg-gray-100">
-      <EmployeeForm />
-    </div>  
-  );
+  return <AppRoutes />;
 }
 
 export default App;
