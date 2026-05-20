@@ -12,7 +12,7 @@ function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         <div className="bg-white p-6 rounded-2xl shadow">
           <h2 className="text-gray-500">Salary</h2>
-          <h1 className="text-3xl font-bold mt-2">
+          <h1 className="text-3xl font-bold mt-2">  
             ₹45,000
           </h1>
         </div>
