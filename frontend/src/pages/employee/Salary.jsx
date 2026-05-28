@@ -11,4 +11,4 @@ function Salary() {
   );
 }
 
-export default Salary;
+export default Salary;  
