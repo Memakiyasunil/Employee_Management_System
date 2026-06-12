@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Bell, Search } from "lucide-react";
 
 function Navbar() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
   return (
     <div className="bg-white shadow-sm px-6 py-4 flex items-center justify-between">
       {/* Search */}
@@ -28,11 +36,11 @@ function Navbar() {
 
           <div>
             <h3 className="font-semibold text-sm">
-              John Doe
+              {user?.name || "John Doe"}
             </h3>
 
             <p className="text-xs text-gray-500">
-              Employee
+              {user?.role || "Employee"}
             </p>
           </div>
         </div>

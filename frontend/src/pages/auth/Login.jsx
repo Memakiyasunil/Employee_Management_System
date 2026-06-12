@@ -5,7 +5,34 @@ import { Link } from "react-router-dom";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.message || "Login failed");
+        return;
+      }
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      navigate("/dashboard");
+    } catch (err) {
+      setError("Server error. Please try again.");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
@@ -22,7 +49,9 @@ function Login() {
         </div>
 
         {/* Form */}
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleLogin}>
+          {error && <div className="bg-red-100 text-red-600 p-3 rounded-xl text-sm">{error}</div>}
+          
           {/* Email */}
           <div>
             <label className="text-sm font-medium text-gray-700">
@@ -36,6 +65,9 @@ function Login() {
                 type="email"
                 placeholder="Enter your email"
                 className="w-full outline-none ml-3"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
           </div>
@@ -53,6 +85,9 @@ function Login() {
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 className="w-full outline-none ml-3"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
 
               <button
@@ -87,7 +122,7 @@ function Login() {
 
           {/* Button */}
           <button
-            onClick={() => navigate("/dashboard")}
+            type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-3 rounded-xl font-semibold"
             >
             Login

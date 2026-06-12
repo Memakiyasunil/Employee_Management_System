@@ -1,15 +1,23 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import {
   LayoutDashboard,
   CalendarCheck,
   Wallet,
   Briefcase,
+  LogOut,
 } from "lucide-react";
 
 function Sidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/");
+  };
 
   const menus = [
     {
@@ -31,6 +39,11 @@ function Sidebar() {
       name: "Tasks",
       path: "/tasks",
       icon: <Briefcase size={20} />,
+    },
+    {
+      name: "Attendance",
+      path: "/attendance",
+      icon: <CalendarCheck size={20} />,
     },
   ];
 
@@ -56,6 +69,14 @@ function Sidebar() {
           </Link>
         ))}
       </div>
+
+      <button
+        onClick={handleLogout}
+        className="flex items-center gap-3 px-4 py-3 mt-10 w-full rounded-lg transition hover:bg-red-600"
+      >
+        <LogOut size={20} />
+        <span>Logout</span>
+      </button>
     </div>
   );
 }
